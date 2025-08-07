@@ -16,6 +16,7 @@ struct ExpenseCell: View {
             Spacer()
             Text(expense.amount,format: .currency(code: "CAD")).foregroundColor(.secondary)
         }
+       
     }
 }
 

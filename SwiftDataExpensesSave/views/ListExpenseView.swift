@@ -14,20 +14,30 @@ struct ListExpenseView: View {
     @Environment(\.modelContext) private var context
     var body: some View {
         NavigationStack {
+            VStack{
             List {
-               ForEach(expenses) { expense in
-                  NavigationLink(destination: UpdateExpenseViewSheet(expense: expense)) {
-                       VStack(alignment: .leading){
-                           ExpenseCell(expense: expense)
-                      }
-                   }
+                ForEach(expenses) { expense in
+                    NavigationLink(destination: UpdateExpenseViewSheet(expense: expense)) {
+                        VStack(alignment: .leading){
+                            ExpenseCell(expense: expense)
+                        }
+                    }
                 }
-               .onDelete{indexSet in
-                for index in indexSet {
-                    self.context.delete(expenses[index])
-                   }
-               }
+                .onDelete{indexSet in
+                    for index in indexSet {
+                        self.context.delete(expenses[index])
+                    }
+                }
+                if !expenses.isEmpty {
+                    Button("Delete All"){
+                        for expense in self.expenses{
+                            self.context.delete(expense)
+                        }
+                    }
+                }
             }
+            .scrollContentBackground(.hidden)  
+            .background(Color.clear)
             .navigationTitle("Expenses")
             .navigationBarTitleDisplayMode(.large)
             .sheet(isPresented: $showAddExpense){
@@ -35,7 +45,7 @@ struct ListExpenseView: View {
             }
             .toolbar{
                 if !expenses.isEmpty {
-                   Button("Add Expense", systemImage: "plus.circle.fill") {
+                    Button("Add Expense", systemImage: "plus.circle.fill") {
                         showAddExpense = true
                     }
                     
@@ -50,7 +60,8 @@ struct ListExpenseView: View {
                 }
             }
         }
-        
+        .background(Color.blue.opacity(0.05))
+    }
     }
 }
 

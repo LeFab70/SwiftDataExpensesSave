@@ -42,7 +42,7 @@ struct AddExpenseSheet: View {
     func save() {
         let expense = Expense(name: name, date: date, amount: amount)
         context.insert(expense)
-        try! context.save()
+        try! context.save() //pas obligatoire 
         self.name = ""
         self.date = .now
         self.amount = 0
